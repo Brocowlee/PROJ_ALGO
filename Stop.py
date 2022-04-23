@@ -42,7 +42,6 @@ class Stop:
     def get_next_stop(self,ligne):
         i=0
         for e in self.ligne:
-
             if e==ligne and self.get_next_stops()!=[]:
                 return self.get_next_stops()[i]
             elif self.get_next_stops()==[]:
