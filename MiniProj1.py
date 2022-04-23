@@ -9,9 +9,7 @@ def nbmin(h):
     return 60*int(hbis)+int(m)
 
 def sub(h1,h2):
-    return nbmin(h2)-nbmin(h1)
-
-#print(sub("5:54","6:32"))
+    return nbmin(h1)-nbmin(h2)
 
 
 class Stop:
@@ -46,8 +44,13 @@ class Stop:
     def get_next_stop(self,ligne):
         i=0
         for e in self.ligne:
-            if e==ligne:
+
+            if e==ligne and self.get_next_stops()!=[]:
                 return self.get_next_stops()[i]
+            elif self.get_next_stops()==[]:
+                return None
+            else:
+                i+=1
         return self.get_next_stops()[0]
 
     def get_horNormales(self):
@@ -82,32 +85,43 @@ class ligne:
 
 
 #pour avoir le temps de trajet entre 2 arrets d'une ligne
-    # def tempsTraj(self,stop1,stop2):
-    #     stop=self.start
-    #     secu=0
-    #     res=0
-    #     while stop!=stop1 or secu>=50:
-    #         stop=stop.get_next_node()
-    #     if secu==50:
-    #         return None
-    #     while stop!=stop2:
-    #         res+=stop.get_time
-    #     return res
+    def tempsTraj(self,heure,stop1,stop2):
+        stop=self.start
+        res=0
+        lastHor=0
+        while stop!=self.findStop(stop1):
+            stop=stop.get_next_stop(self)
+        res+=sub(self.nextBus(heure,stop.name),heure)
+        while stop!=self.findStop(stop2):
+            if lastHor!=0:
+                res+=sub(self.nextBus(lastHor,stop.name),lastHor)
+            lastHor=self.nextBus(heure,stop.name)
+            stop=stop.get_next_stop(self)
+        res+=sub(self.nextBus(lastHor,stop.name),lastHor)
+        return res
 
-    def nextBus(self,heureDepart,start,end):
-        hdMin=nbmin(heureDepart)
+
+
+    def nextBus(self,heureDepart,start):
+        start=self.findStop(start)
         ligneStop=start.ligne[0]
         indLigne=0
         indHorraires=0
-        while (self != ligneStop and end == self.direction) or indLigne>len(start.ligne):
+        while self != ligneStop or indLigne>len(start.ligne):
             indLigne+=1
             ligneStop=start.ligne[indLigne]
         horraire=nbmin(start.horNormales[indLigne][0])
         while horraire < nbmin(heureDepart) or indHorraires>len(start.horNormales[indLigne]):
             indHorraires+=1
-            horraire=nbmin(horraire=start.horNormales[indLigne][indHorraires])
+            horraire=nbmin(start.horNormales[indLigne][indHorraires])
         return start.horNormales[indLigne][indHorraires]
         
+    def findStop(self,stop):
+        res=self.start
+        while res.name != stop:
+            res = res.get_next_stop(self)
+        return res
+
 
 #pour avoir le nombre d'arrets entre 2 arrets d'une ligne
     def nbStop(self,stop1,stop2):

@@ -27,7 +27,11 @@ def imple():
     return ligne
 
 ligne=imple()
-print(MiniProj1.nbmin('5:15'))
+#print(MiniProj1.sub(ligne.nextBus("7:00","Vernod"),"7:00"))
+#print(ligne.nextBus('7:00','Vernod'))
+print(ligne.tempsTraj('7:00','Vernod','Meythet_Le_Rabelais'))
+#print(MiniProj1.nbmin('5:15'))
+#print(sub("5:54","6:32"))
 #print(data2py.dates2dic(ligne.start.get_next_stop(ligne).get_horNormales()[0]))
 #print(ligne)
 #print(ligne.start)
