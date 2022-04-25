@@ -55,7 +55,6 @@ ligne2go=imple(2,True)
 ligne2back=imple(2,False)
 lignes=[ligne1go,ligne1back,ligne2go,ligne2back]
 sybra=ReseauBus(lignes)
-#print(ligne2go.start.get_next_stop(ligne2go))
+print(sybra.shortest("GARE","France_Barattes"))
 # print(ligne1go.findStop("GARE"))
-print(sybra.shortest("GARE","Pommaries"))
 #print(ligne2go.tempsTraj('7:00','Courier','Pommaries'))
