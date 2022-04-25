@@ -9,9 +9,9 @@ class Ligne:
     def __str__(self):
         res = "ligne n°" + self.num +"\n"
         stop=self.start
-        while stop != self.direction:
-            res+=stop.get_name()+"\n"
-            stop=stop.get_next_stop(self.num)
+        # while stop != self.direction:
+        #     res+=stop.get_name()+"\n"
+        #     stop=stop.get_next_stop(self.num)
         res+=self.direction.get_name()
         return res
 
@@ -56,9 +56,13 @@ class Ligne:
         
     def findStop(self,stop):
         res=self.start
-        while res.name != stop:
-            res = res.get_next_stop(self)
-        return res
+        try:
+            while res.name != stop:
+                res = res.get_next_stop(self)
+            return res
+        except AttributeError:
+            return None
+
 
 
 #pour avoir le nombre d'arrets entre 2 arrets d'une ligne
@@ -73,3 +77,10 @@ class Ligne:
         while stop!=stop2:
             res+=1
         return res
+
+    def isHere(self,stopName):
+        try:
+             stop = self.findStop(stopName)
+             return True
+        except:
+            return False

@@ -2,6 +2,7 @@
 #-*-coding:utf-8-*-
 from Ligne import *
 from Stop import *
+from ReseauBus import *
 import data2py1
 import data2py2
        
@@ -52,5 +53,8 @@ ligne1go=imple(1,True)
 ligne1back=imple(1,False)
 ligne2go=imple(2,True)
 ligne2back=imple(2,False)
-#print(ligne.nextBus('7:00','Vernod'))
-print(ligne2go.tempsTraj('7:00','Parc_des_Sports','Pommaries'))
+lignes=[ligne1go,ligne1back,ligne2go,ligne2back]
+sybra=ReseauBus(lignes)
+# print(ligne1go.findStop("GARE"))
+print(sybra.shortest("GARE","Ponchy"))
+#print(ligne2go.tempsTraj('7:00','Courier','Pommaries'))
