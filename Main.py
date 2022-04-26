@@ -81,7 +81,6 @@ sybra.addLignes(ligne2back)
 # for e in sybra.findTheStop("GARE").get_next_stops():
 #     print(e)
 # print(ligne2go.direction)
-for e in sybra.allStops:
-    print(e)
+print(sybra.shortest("Vernod","Ponchy"))
 #print(len(ligne1go.findStop("Ponchy").next_stop))
 #print(ligne2go.tempsTraj('7:00','Courier','Pommaries'))

@@ -59,23 +59,15 @@ class ReseauBus:
                 return e
         return None
 
-    # def getAllStops(self):
-    #     res=[]
-    #     for e in self.lignes:
-    #         stop=e.start
-    #         while stop!=None:
-    #             res.append(stop)
-    #             stop=stop.get_next_stop(e)
-    #     return res
 
     def initDicoShortest(self):
         res={}
-        for e in self.getAllStops():
-            res[e]=inf
+        for e in self.allStops:
+            res[e]=[inf,None]
         return res
 
 
-
+#test
     # def shortest(self,start,end):
     #     startingStop=self.findTheStop(start)
     #     endingStop=self.findTheStop(end)
@@ -99,7 +91,7 @@ class ReseauBus:
     def shortestDijkstra(self,start,end):
         startingStop=self.findTheStop(start)
         endingPoint=self.findTheStop(end)
-        listAllStops=self.getAllStops()
+        listAllStops=self.allStops
         dicoShortest=self.initDicoShortest()
         listAllStops.remove(startingStop)
         dicoShortest[startingStop]=0
