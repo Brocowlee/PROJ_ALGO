@@ -32,13 +32,13 @@ def getNewCurrent(listAllStops,dicoShortest):
     return nextCurrent
 
 class ReseauBus:
-    def __init__(self,lignes):
+    def __init__(self):
         self.lignes=[]
         self.allStops=[]
 
 
     def addLignes(self,ligne):
-        self.lignes.add(ligne)
+        self.lignes.append(ligne)
 
     def findStops(self,stop): #renvoie une liste des lignes comprenant l'arrret stop
         res=[]
@@ -59,14 +59,14 @@ class ReseauBus:
                 return e
         return None
 
-    def getAllStops(self):
-        res=[]
-        for e in self.lignes:
-            stop=e.start
-            while stop!=None:
-                res.append(stop)
-                stop=stop.get_next_stop(e)
-        return res
+    # def getAllStops(self):
+    #     res=[]
+    #     for e in self.lignes:
+    #         stop=e.start
+    #         while stop!=None:
+    #             res.append(stop)
+    #             stop=stop.get_next_stop(e)
+    #     return res
 
     def initDicoShortest(self):
         res={}
