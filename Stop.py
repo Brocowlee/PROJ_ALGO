@@ -9,6 +9,25 @@ def nbmin(h):
 def sub(h1,h2):
     return nbmin(h1)-nbmin(h2)
 
+def add(h,m):
+    res=""
+    if len(h)==5:
+        min=int(h[3]+h[4])
+        heure=int(h[0]+h[1])
+    else:
+        min=int(h[2]+h[3])
+        heure=int(h[0])
+    if min+m<60 and len(str(min+m))==2:
+        res=str(heure) + ":" + str(min+m)
+    elif min+m<60 and len(str(min+m))==1:
+        res=str(heure) + ":0" + str(min+m)
+    else:
+        if len(str(min+m-60))==2 and min+m-60>0:
+            res=str(heure+1) + ":" + str(min+m-60)
+        else:
+            res=str(heure+1) + ":0" + str(min+m-60)
+    return res
+
 
 class Stop:
     def __init__(self,name):

@@ -58,7 +58,6 @@ def imple(num,sens,reseau):
             else:
                 stop.add_next_stop(reseau.isAlreadyAdd(str(list(regular.keys())[i+1])))
 
-            stop.next_stop[len(stop.next_stop)-1].add_ligne(ligne)
             #ajout de l'arret de derpart de la ligne
             if i==0: 
                 ligne.addStart(stop)
@@ -75,6 +74,7 @@ ligne2go=imple(2,True,sybra)
 sybra.addLignes(ligne2go)
 ligne2back=imple(2,False,sybra)
 sybra.addLignes(ligne2back)
-
-
-print(sybra.shortest("Ponchy","Arcadium"))
+print(sybra.tempsTraj("7:00","GARE","Bonlieu"))
+#print(nbmin("6:20"))
+#print(sybra.shortest("Ponchy","Arcadium"))
+#print(sybra.fastest("Ponchy","Arcadium","7:00"))

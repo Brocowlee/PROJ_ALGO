@@ -25,37 +25,6 @@ class Ligne:
         self.direction=direction
 
 
-#pour avoir le temps de trajet entre 2 arrets d'une ligne
-    def tempsTraj(self,heure,stop1,stop2):
-        stop=self.start
-        res=0
-        lastHor=0
-        while stop!=self.findStop(stop1):
-            stop=stop.get_next_stop(self)
-        res+=sub(self.nextBus(heure,stop.name),heure)
-        while stop!=self.findStop(stop2):
-            if lastHor!=0:
-                res+=sub(self.nextBus(lastHor,stop.name),lastHor)
-            lastHor=self.nextBus(heure,stop.name)
-            stop=stop.get_next_stop(self)
-        res+=sub(self.nextBus(lastHor,stop.name),lastHor)
-        return res
-
-
-
-    def nextBus(self,heureDepart,start):
-        start=self.findStop(start)
-        ligneStop=start.ligne[0]
-        indLigne=0
-        indHorraires=0
-        while self != ligneStop or indLigne>len(start.ligne):
-            indLigne+=1
-            ligneStop=start.ligne[indLigne]
-        horraire=nbmin(start.horNormales[indLigne][0])
-        while horraire < nbmin(heureDepart) or indHorraires>len(start.horNormales[indLigne]):
-            indHorraires+=1
-            horraire=nbmin(start.horNormales[indLigne][indHorraires])
-        return start.horNormales[indLigne][indHorraires]
         
     def findStop(self,stop):
         res=self.start
