@@ -3,6 +3,7 @@ from Ligne import *
 from Stop import *
 from sys import *
 from math import inf
+import copy
 
 nbArcsMini=1000
 
@@ -14,21 +15,20 @@ def min(old,new):
         return new
 
 def majDicoDistance(current,dico):
-    print(current.next_stop)
     for s in current.next_stop:
-        newDist=dico[current]+1
-        if newDist<dico[s]:
-            dico[s]=newDist
-            print("ici")
+        newDist=dico[current][0]+1
+        if newDist<dico[s][0]:
+            dico[s][0]=newDist
+            dico[s][1]=current
     return dico
 
 def getNewCurrent(listAllStops,dicoShortest):
     nextCurrent=listAllStops[0]
-    nextCurrentDist=dicoShortest[nextCurrent]
+    nextCurrentDist=dicoShortest[nextCurrent][0]
     for s in listAllStops:
-        if dicoShortest[s]<nextCurrentDist:
+        if dicoShortest[s][0]<nextCurrentDist:
             nextCurrent=s
-            nextCurrentDist=dicoShortest[s]
+            nextCurrentDist=dicoShortest[s][0]
     return nextCurrent
 
 class ReseauBus:
@@ -47,12 +47,19 @@ class ReseauBus:
                 res.append(e)
         return res
 
-    def findTheStop(self,stop):
-        for e in self.lignes:
-            if e.findStop(stop)!=None:
-                return e.findStop(stop)
-        return None
+    # def findTheStop(self,stop):
+    #     for e in self.lignes:
+    #         if e.findStop(stop)!=None:
+    #             print(e.findStop(stop))
+    #             return e.findStop(stop)
+    #     return None
     
+    def findTheStop(self,stop):
+        for e in self.allStops:
+            if e.name==stop:
+                return e
+        return None
+
     def isAlreadyAdd(self,stop):
         for e in self.allStops:
             if e.name==stop:
@@ -67,37 +74,18 @@ class ReseauBus:
         return res
 
 
-#test
-    # def shortest(self,start,end):
-    #     startingStop=self.findTheStop(start)
-    #     endingStop=self.findTheStop(end)
-    #     def shortestbis(self,nbArcs,stop,end):
-    #         print(stop)
-    #         if stop==end:
-    #             return nbArcs
-    #         else:
-    #             for i in range(len(self.findStops(stop))):
-    #                 ligne=self.findStops(stop)[i]
-    #                 print(ligne)
-    #                 print(i)
-    #                 if stop.get_next_stop(ligne)==None:
-    #                     print("terminus")
-    #                 else:
-    #                     return shortestbis(self,nbArcs+1,stop.get_next_stop(ligne),end)
-   
-    #     return shortestbis(self,0,startingStop,endingStop)
-                
 
     def shortestDijkstra(self,start,end):
+        listAllStops=[]
+        for e in self.allStops:
+            listAllStops.append(e)
         startingStop=self.findTheStop(start)
         endingPoint=self.findTheStop(end)
-        listAllStops=self.allStops
         dicoShortest=self.initDicoShortest()
         listAllStops.remove(startingStop)
-        dicoShortest[startingStop]=0
+        dicoShortest[startingStop][0]=0
         def shortestBis(self,current,end,listAllStops,dicoShortest):
             if current==end:
-                print("finito")
                 return dicoShortest
             dicoShortest=majDicoDistance(current,dicoShortest)
             newCurrent=getNewCurrent(listAllStops,dicoShortest)
@@ -107,6 +95,16 @@ class ReseauBus:
         return shortestBis(self,startingStop,endingPoint,listAllStops,dicoShortest)
 
     def shortest(self,start,end):
-        for cle,value in self.shortestDijkstra(start,end).items():
-            if value!= inf:
-                print("arret: " + str(cle) + "\n" + str(value))
+        res=""
+        dico=self.shortestDijkstra(start,end)
+        print(end)
+        print(self.findTheStop(end))
+        for cle,value in dico.items():
+            if cle==self.findTheStop(end):
+                current=self.findTheStop(end)
+                res+="en "+ str(value[0]) + " arcs"+"\n"
+                while current!= self.findTheStop(start):
+                    res+=str(current)+"\n"
+                    current=dico[current][1]
+        res+=str(self.findTheStop(start))
+        return res

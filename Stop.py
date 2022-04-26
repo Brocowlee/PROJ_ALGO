@@ -36,19 +36,17 @@ class Stop:
     def get_name(self):
         return self.name
 
-    def get_next_stops(self):
-        return self.next_stop
 
     def get_next_stop(self,ligne):
         i=0
         for e in self.ligne:
-            if e==ligne and self.get_next_stops()!=[]:
-                return self.get_next_stops()[i]
-            elif self.get_next_stops()==[]:
+            if e==ligne and self.next_stop!=[]:
+                return self.next_stop[i]
+            elif self.next_stop==[]:
                 return None
             else:
                 i+=1
-        return self.get_next_stops()[0]
+        return self.next_stop[0]
 
     def get_horNormales(self):
         return self.horNormales

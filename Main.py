@@ -51,7 +51,6 @@ def imple(num,sens,reseau):
             stop.add_horNormales(val)
             stop.add_horVancances(hol[cle])
             stop.add_ligne(ligne)
-            #fix du probleme?
             if reseau.isAlreadyAdd(str(list(regular.keys())[i+1]))==None:
                 newStop=Stop(str(list(regular.keys())[i+1]))
                 stop.add_next_stop(newStop)
@@ -77,10 +76,5 @@ sybra.addLignes(ligne2go)
 ligne2back=imple(2,False,sybra)
 sybra.addLignes(ligne2back)
 
-#print(sybra.shortestDijkstra("Ponchy","Vernod"))
-# for e in sybra.findTheStop("GARE").get_next_stops():
-#     print(e)
-# print(ligne2go.direction)
-print(sybra.shortest("Vernod","Ponchy"))
-#print(len(ligne1go.findStop("Ponchy").next_stop))
-#print(ligne2go.tempsTraj('7:00','Courier','Pommaries'))
+
+print(sybra.shortest("Ponchy","Arcadium"))
