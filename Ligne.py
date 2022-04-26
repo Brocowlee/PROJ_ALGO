@@ -9,9 +9,13 @@ class Ligne:
     def __str__(self):
         res = "ligne n°" + self.num +" -"
         stop=self.start
-        # while stop != self.direction:
-        #     res+=stop.get_name()+"\n"
-        #     stop=stop.get_next_stop(self.num)
+        while stop != self.direction:
+            res+=stop.get_name()+"\n"
+            stop=stop.get_next_stop(self.num)
+            res+="_____"
+            for e in stop.next_stop:
+                res+=str(e)
+            res+="_____"
         res+=" direction: " + self.direction.get_name()
         return res
 

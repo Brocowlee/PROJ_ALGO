@@ -14,11 +14,12 @@ def min(old,new):
         return new
 
 def majDicoDistance(current,dico):
-    stops=current.get_next_stops()
-    for s in stops:
+    print(current.next_stop)
+    for s in current.next_stop:
         newDist=dico[current]+1
         if newDist<dico[s]:
             dico[s]=newDist
+            print("ici")
     return dico
 
 def getNewCurrent(listAllStops,dicoShortest):
@@ -32,7 +33,12 @@ def getNewCurrent(listAllStops,dicoShortest):
 
 class ReseauBus:
     def __init__(self,lignes):
-        self.lignes=lignes
+        self.lignes=[]
+        self.allStops=[]
+
+
+    def addLignes(self,ligne):
+        self.lignes.add(ligne)
 
     def findStops(self,stop): #renvoie une liste des lignes comprenant l'arrret stop
         res=[]
@@ -45,6 +51,12 @@ class ReseauBus:
         for e in self.lignes:
             if e.findStop(stop)!=None:
                 return e.findStop(stop)
+        return None
+    
+    def isAlreadyAdd(self,stop):
+        for e in self.allStops:
+            if e.name==stop:
+                return e
         return None
 
     def getAllStops(self):
@@ -93,6 +105,7 @@ class ReseauBus:
         dicoShortest[startingStop]=0
         def shortestBis(self,current,end,listAllStops,dicoShortest):
             if current==end:
+                print("finito")
                 return dicoShortest
             dicoShortest=majDicoDistance(current,dicoShortest)
             newCurrent=getNewCurrent(listAllStops,dicoShortest)
@@ -100,3 +113,8 @@ class ReseauBus:
             return shortestBis(self,newCurrent,end,listAllStops,dicoShortest)
             
         return shortestBis(self,startingStop,endingPoint,listAllStops,dicoShortest)
+
+    def shortest(self,start,end):
+        for cle,value in self.shortestDijkstra(start,end).items():
+            if value!= inf:
+                print("arret: " + str(cle) + "\n" + str(value))
