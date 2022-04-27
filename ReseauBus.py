@@ -71,25 +71,25 @@ class ReseauBus:
     def majDicoDistance(self,current,dico,heure):
         i=0
         for s in current.next_stop:
-            newDist=dico[current][0]
+            print(heure)
+            print(current)
+            print(s)
+            newDist=dico[current][0]+self.tempsTraj(heure,current.name,s.name)
             if newDist<dico[s][0]:
                 dico[s][0]=newDist
                 dico[s][1]=current
             i+=1
         return dico
 
-    def nextBus(self,heure,stopStr,toStr):
+    def nextBus(self,heure,stopStr,ligne):
         stop=self.findTheStop(stopStr)
-        to=self.findTheStop(toStr)
-        for index in range(len(stop.next_stop)):
-            ns=stop.next_stop[index]
-            if ns==to:
+        for index in range(len(stop.ligne)):
+            if ligne==stop.ligne[index]:
                 horraire=stop.horNormales[index][0]
-                i=0
                 minHeure=nbmin(heure)
                 minHorraire=nbmin(horraire)
+                i=0
                 while minHeure>minHorraire or i>len(stop.horNormales[index]):
-                    print(i)
                     i+=1
                     horraire= stop.horNormales[index][i]
                     minHorraire=nbmin(horraire)
@@ -101,22 +101,8 @@ class ReseauBus:
         for index in range(len(stop.next_stop)):
             ns=stop.next_stop[index]
             if ns==to:
-                print("yo")
                 ligne=stop.ligne[index]
-                horraire=stop.horNormales[index][0]
-                i=0
-                minHeure=nbmin(heure)
-                minHorraire=nbmin(horraire)
-                while minHeure>minHorraire or i>len(stop.horNormales[index]):
-                    i+=1
-                    horraire= stop.horNormales[index][i]
-                    minHorraire=nbmin(horraire)
-        indLigne=0
-        while ligne!=ns.ligne[indLigne]:
-            #print(ns.ligne[indLigne])
-            indLigne+=1
-        temps=nbmin(self.nextBus(horraire,ns,ns.next_stop[indLigne]))-nbmin(horraire)
-        return temps
+                return nbmin(self.nextBus(heure,ns.name,ligne))-nbmin(self.nextBus(heure,stop.name,ligne))
 
 
     def shortestDijkstra(self,start,end):
@@ -141,8 +127,6 @@ class ReseauBus:
     def shortest(self,start,end):
         res=""
         dico=self.shortestDijkstra(start,end)
-        print(end)
-        print(self.findTheStop(end))
         for cle,value in dico.items():
             if cle==self.findTheStop(end):
                 current=self.findTheStop(end)
@@ -163,12 +147,9 @@ class ReseauBus:
         listAllStops.remove(startingStop)
         dicoShortest[startingStop][0]=0
         def fastestBis(self,current,end,listAllStops,dicoShortest,heure):
-            print(current)
-            print(heure)
             if current==end:
                 return dicoShortest
-            dicoShortest=majDicoDistance(current,dicoShortest,heure)
-            print("ici")
+            dicoShortest=self.majDicoDistance(current,dicoShortest,heure)
             newCurrent=getNewCurrent(listAllStops,dicoShortest)
             listAllStops.remove(newCurrent)
             return fastestBis(self,newCurrent,end,listAllStops,dicoShortest,heure)
