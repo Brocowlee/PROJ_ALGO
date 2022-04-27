@@ -1,10 +1,13 @@
 def nbmin(h):
-    if len(h)==5:
-        hbis=h[0]+h[1]
+    if h=="-":
+        return 0
     else:
-        hbis=h[0]
-    m=h[len(h)-2]+h[len(h)-1]
-    return 60*int(hbis)+int(m)
+        if len(h)==5:
+            hbis=h[0]+h[1]
+        else:
+            hbis=h[0]
+        m=h[len(h)-2]+h[len(h)-1]
+        return 60*int(hbis)+int(m)
 
 def sub(h1,h2):
     return nbmin(h1)-nbmin(h2)

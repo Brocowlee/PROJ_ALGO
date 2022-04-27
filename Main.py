@@ -47,6 +47,9 @@ def imple(num,sens,reseau):
     for cle,val in regular.items():
         if i==len(list(regular.keys()))-1:
             ligne.addDirection(stop)
+            stop.add_horNormales(val)
+            stop.add_horVancances(hol[cle])
+            stop.add_ligne(ligne)
         else:
             stop.add_horNormales(val)
             stop.add_horVancances(hol[cle])
@@ -74,8 +77,9 @@ ligne2go=imple(2,True,sybra)
 sybra.addLignes(ligne2go)
 ligne2back=imple(2,False,sybra)
 sybra.addLignes(ligne2back)
-#print(sybra.tempsTraj("7:00","GARE","France_Barattes"))
+#print(sybra.tempsTraj("7:00","Chorus","Meythet_Le_Rabelais"))
+#print(sybra.nextBus("7:00","Chorus",ligne1back))
 #print(sybra.nextBus("7:50","GARE",ligne2back))
-print(sybra.shortest("Ponchy","Arcadium"))
-#print(sybra.fastest("Ponchy","Arcadium","7:00"))
+#print(sybra.shortest("Ponchy","Arcadium"))
+print(sybra.fastest("Chorus","Bonlieu","7:00"))
 #print(sybra.findTheStop("GARE").horNormales)
